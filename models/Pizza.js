@@ -29,6 +29,7 @@ const PizzaSchema = new Schema({
 },
 {
     toJSON: {
+        //virtuals uses a method to access a field that doesn't actually exist in the database
         virtuals: true,
         //this tells the Mongoose model that it should use the getter function we've specified in the createAt field.
         getters: true
@@ -38,8 +39,9 @@ const PizzaSchema = new Schema({
 });
 
 //get total count of comments and replies on retrieval. This ia called a virtual
+//here we're using the .reduce() method to tally up the total of every comment with its replies. .reduce takes two parameters, an accumulator and a currentValue
 PizzaSchema.virtual('commentCount').get(function() {
-    return this.comments.length;
+    return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0);
 })
 
 // create the Pizza model using the PizzaSchema
