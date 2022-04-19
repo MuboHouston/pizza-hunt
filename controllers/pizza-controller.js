@@ -5,6 +5,15 @@ const pizzaController = {
     // get all pizzas. getAllPizza is an object method. getAllPizza and getPizzaById are the two ways to write object methods
     getAllPizza(req, res) {
         Pizza.find({})
+        //.populate method populates the comment field, excluding the '-__v' field
+        .populate({
+            path: 'comments',
+            select: '-__v'
+        })
+        //.select method with the '-' in front of the field indicates that we dont want to return that field.
+        .select('-__v')
+        //this sorts in descending order by the _id value.
+        // .sort({_id: -1})
         .then(dbPizzaData => res.json(dbPizzaData))
         .catch(err => {
             console.log(err);
@@ -15,6 +24,11 @@ const pizzaController = {
     // get one pizza by id
     getPizzaById: function({ params }, res) {
         Pizza.findOne({ _id: params.id })
+        .populate({
+            path: 'comments',
+            select: '-__v'
+        })
+        .select('-__v')
         .then(dbPizzaData => {
             // If no pizza is found, send 404
             if (!dbPizzaData) {
@@ -53,6 +67,7 @@ const pizzaController = {
 
     //delete pizza
     deletePizza({ params }, res) {
+        console.log(params)
         Pizza.findOneAndDelete({ _id: params.id })
         .then(dbPizzaData => {
             if(!dbPizzaData) {
