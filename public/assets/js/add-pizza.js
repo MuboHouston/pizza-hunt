@@ -67,6 +67,8 @@ const handlePizzaSubmit = event => {
   })
   .catch(err => {
     console.log(err)
+    //add records to the browser's IndexedDB database called "new_pizza" when there is internet connection issues
+    saveRecord(formData)
   })
 };
 
