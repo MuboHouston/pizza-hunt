@@ -3,10 +3,16 @@ const dateFormat = require('../utils/dateFormat')
 
 const PizzaSchema = new Schema({
     pizzaName: {
-        type: String
+        type: String,
+        //you can add a custom error message as a string instead of true.
+        required: true,
+        //trim removes white space before and after the input string
+        trim: true
     },
     createdBy: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
     },
     createdAt: {
         type: Date,
@@ -16,6 +22,9 @@ const PizzaSchema = new Schema({
     },
     size: {
         type: String,
+        //custom required messages do not work with the enum option
+        required: true,
+        enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
         default: 'Large'
     },
     //empty brackets indicates an array as the data type. You can also specify Array in place of the brackets.

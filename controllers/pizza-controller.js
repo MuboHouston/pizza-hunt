@@ -54,7 +54,8 @@ const pizzaController = {
     //update pizza by id
     updatePizza({ params, body }, res) {
         //if we don't set the third parameter {new: true}, then it will return the original document.
-        Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
+        //runValidators:true tells tells the computer to validate any new information. 
+        Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
         .then(dbPizzaData => {
             if(!dbPizzaData) {
                 res.status(404).json({ message: 'No pizza found with this id!' })
